@@ -1,12 +1,13 @@
 # MicrosoftSOAProjects
 Here are some mini-project ideas aligned with the SC-200 certification modules to showcase your skills:
 
-**1. Threat Detection and Response with Microsoft 365 Defender**
-Description: Configure Microsoft 365 Defender to monitor and detect potential phishing and ransomware attacks. Set up automated incident response workflows using Defender capabilities.
+**2. Endpoint Threat Protection with Microsoft Defender for Endpoint**
+Description: Implement Microsoft Defender for Endpoint to protect a simulated network of virtual machines. Perform vulnerability assessments and respond to detected threats.
 Key Deliverables:
-Incident reports with identified threats.
-Automated playbooks for phishing email quarantines and endpoint isolation.
-Dashboard showcasing detection metrics and incident timelines.
+Endpoint risk assessment report.
+Threat mitigation steps, such as isolating infected devices or removing malicious files.
+Documentation of threat investigation and resolution process.
+
 
 # **Project: Threat Detection and Response with Microsoft 365 Defender**
 Objective: Configure Microsoft 365 Defender to monitor and detect phishing and ransomware attacks, and set up automated incident response workflows.
