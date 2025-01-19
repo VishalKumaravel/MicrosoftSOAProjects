@@ -1,7 +1,7 @@
 # MicrosoftSOAProjects
 Here are some mini-project ideas aligned with the SC-200 certification modules to showcase your skills:
 
-**2. Endpoint Threat Protection with Microsoft Defender for Endpoint**
+# **2. Endpoint Threat Protection with Microsoft Defender for Endpoint**
 Description: Implement Microsoft Defender for Endpoint to protect a simulated network of virtual machines. Perform vulnerability assessments and respond to detected threats.
 Key Deliverables:
 Endpoint risk assessment report.
@@ -9,462 +9,239 @@ Threat mitigation steps, such as isolating infected devices or removing maliciou
 Documentation of threat investigation and resolution process.
 
 
-# **Project: Threat Detection and Response with Microsoft 365 Defender**
-Objective: Configure Microsoft 365 Defender to monitor and detect phishing and ransomware attacks, and set up automated incident response workflows.
+Objective:
+Implement Microsoft Defender for Endpoint to safeguard a simulated network of virtual machines. The goal is to perform vulnerability assessments, detect threats, and mitigate those threats effectively using Microsoft Defender for Endpoint.
 
-### Step-by-Step Guide: **Environment Setup for Microsoft 365 Defender**
 
-The first step in configuring Microsoft 365 Defender for threat detection and response is setting up the environment. Here's a detailed breakdown of every small step to ensure a successful setup:  
+### **Steps to Complete the Project**
 
----
-
-### **1. Create a Microsoft 365 Account**  
-1. **Visit Microsoft 365 Plans Page**:  
-   - Navigate to the [Microsoft 365](https://www.microsoft.com/microsoft-365) website.  
-   - Choose a plan that includes advanced security features (e.g., Microsoft 365 E5 or Defender add-ons).  
-
-2. **Sign Up for a Trial (Optional)**:  
-   - If you’re exploring, use the free trial option for Microsoft 365 E5.  
-   - Provide your email address and follow the sign-up prompts.  
-
-3. **Enter Your Information**:  
-   - Fill out your organization’s name, country/region, and admin contact details.  
-   - Verify your identity via phone or email.  
-
-4. **Set Up Your Tenant**:  
-   - Choose a tenant name (e.g., `yourcompany.onmicrosoft.com`). This will be your organization’s unique identifier.  
-   - Complete the registration to access your Microsoft 365 admin portal.  
+#### **1. Environment Setup**
 
 ---
 
-### **2. Configure Licenses**  
-1. **Access Admin Center**:  
-   - Go to [Microsoft 365 Admin Center](https://admin.microsoft.com).  
-   - Log in using your admin credentials.  
+##### **Step 1.1: Create a Simulated Network**
 
-2. **Assign Licenses**:  
-   - Navigate to **Users > Active Users**.  
-   - Click **Add User** and create test accounts for your simulated organization.  
-   - Assign each user the Microsoft 365 E5 license (or equivalent).  
+1. **Set Up Virtual Machines (VMs)**:
+   - Use a virtualization tool like **Hyper-V**, **VMware**, or **VirtualBox** to create multiple VMs.
+   - Choose various operating systems for each VM (e.g., Windows 10/11, Linux) to simulate different environments. This diversity allows testing Microsoft Defender for Endpoint on different platforms.
 
-3. **Enable Security Add-Ons**:  
-   - Ensure licenses include Microsoft Defender for Office 365, Microsoft Defender for Endpoint, and Azure AD Premium (P1 or P2).  
+2. **Configure Networking**:
+   - Ensure that these VMs can communicate with each other by setting them up in the same virtual network or subnet. This can be done within the virtualization tool’s network configuration.
+   - If using Azure or an on-premises Active Directory (AD), join the VMs to the respective directory. This step enables centralized management and easier integration of Microsoft Defender.
+
+   **Example**:
+   - Windows VMs can be joined to Azure Active Directory or your on-premises Active Directory to enable access to group policies, security settings, and centralized threat detection.
+   
+---
+
+##### **Step 1.2: Install Microsoft Defender for Endpoint**
+
+1. **Access the Microsoft 365 Defender Portal**:
+   - Log into the **Microsoft 365 Defender portal** at [https://security.microsoft.com](https://security.microsoft.com).
+   - Ensure you have the necessary licenses to use Microsoft Defender for Endpoint. You may need an **Microsoft Defender for Endpoint** or **Microsoft 365 E5 license**.
+
+2. **Assign Defender for Endpoint Licenses**:
+   - Assign the **Microsoft Defender for Endpoint** license to the users or VMs you want to protect. This can be done via the Microsoft 365 Admin Center by selecting the specific users and assigning the appropriate security licenses.
+
+3. **Onboard Each VM**:
+   - Onboard the VMs to **Microsoft Defender for Endpoint** by running an onboarding script that configures the Defender for Endpoint software on each VM. This script enables Defender’s security features and establishes communication between each VM and the Defender portal.
+
+   **To onboard a Windows VM**:
+   - Download the onboarding script from the Microsoft Defender portal:
+     ```bash
+     Invoke-WebRequest -Uri https://aka.ms/mdm_download_link -OutFile "DefenderForEndpointOnboardingScript.ps1"
+     ```
+   - **Run the Script**:
+     - Execute the downloaded PowerShell script on the VM to install and configure the Defender for Endpoint client.
+     - This script connects the VM to the Microsoft Defender for Endpoint service, enabling threat detection and security monitoring.
+
+   **Example command**:
+   ```bash
+   # PowerShell command to onboard the VM
+   .\DefenderForEndpointOnboardingScript.ps1
+   ```
+
+4. **Verify Onboarding**:
+   - Once the script has been executed, the VM will be registered with Microsoft Defender for Endpoint, and you can monitor its security status from the Defender portal.
+
+5. **Repeat** for all VMs:
+   - Run the onboarding process on all virtual machines in the simulated environment to ensure they are fully protected and monitored by Microsoft Defender.
+
+
+### **2. Configure Endpoint Security Policies**
 
 ---
 
-### **3. Create a Simulated Organization**  
-1. **Add Test Users**:  
-   - In the **Active Users** tab, create multiple users to simulate employees.  
-   - Example:  
-     - Alice (Finance Team)  
-     - Bob (HR Team)  
-     - Charlie (IT Team)  
+#### **Step 2.1: Set Up Antivirus and Malware Protection**
 
-2. **Define Roles**:  
-   - Assign appropriate admin or user roles to test accounts.  
-   - Example: Charlie (Global Admin), Alice (User), Bob (Security Admin).  
+1. **Configure Antivirus Settings in Microsoft Defender**:
+   - **Real-Time Protection**:
+     - Enable **real-time protection** in Microsoft Defender to automatically detect and block malware as it runs on your systems. This feature helps prevent the execution of harmful files by actively scanning processes, files, and scripts.
+   - **Scheduled Scans**:
+     - Set up periodic scans to ensure your system remains protected even when real-time protection is not active. Schedule scans during low-usage hours to minimize impact on performance.
+     - In the **Microsoft 365 Defender portal**, go to **Endpoint Security** > **Antivirus** > **Settings**, and configure the **Full Scan** and **Quick Scan** schedules.
 
-3. **Simulate Groups**:  
-   - Create Microsoft 365 Groups to mimic real-world departments:  
-     - Finance  
-     - HR  
-     - IT  
+   **Example**:
+   - You can configure a **daily quick scan** and a **weekly full scan** for all VMs in the environment.
 
-4. **Set Up Devices**:  
-   - Use virtual machines (VMs) or physical devices for testing.  
-   - Install Windows 10/11 or macOS and join these devices to **Azure AD**.  
-     - For Windows: Go to **Settings > Accounts > Access work or school > Connect** and sign in with test user credentials.  
+2. **Enable Attack Surface Reduction (ASR) Rules**:
+   - ASR rules are preconfigured rules that block certain activities often used in attacks, such as phishing attempts, credential theft, or attempts to run malicious scripts.
+   - To enable ASR rules:
+     1. Go to **Microsoft 365 Defender portal** > **Endpoint Security** > **Attack Surface Reduction**.
+     2. Enable rules like **Block credential stealing** or **Block phishing** to mitigate common attack vectors.
+     3. You can also create custom rules to target specific threats or vulnerabilities.
+   
+   **Example**:
+   - Enable the **Phishing Protection** rule, which blocks emails and links commonly associated with phishing attacks.
 
----
-
-### **4. Configure Basic Security Settings**  
-1. **Enable MFA (Multi-Factor Authentication)**:  
-   - Go to **Azure Active Directory > Security > MFA**.  
-   - Enforce MFA for all test users to mimic secure access practices.  
-
-2. **Set Up Conditional Access**:  
-   - Navigate to **Azure AD > Security > Conditional Access**.  
-   - Create policies to control access based on user location, device compliance, or risk level.  
-
-3. **Enable Audit Logs and Sign-In Logs**:  
-   - In **Azure AD > Monitoring**, enable audit logs and sign-in logs to track user activities.  
+3. **Configure Additional Malware Protection**:
+   - In addition to real-time protection and ASR rules, ensure that **cloud-delivered protection** is enabled for up-to-date protection against the latest threats.
+   - Enable **Automatic Sample Submission** so that suspicious files are sent to Microsoft for analysis, ensuring ongoing improvements to malware detection.
 
 ---
 
-### **5. Verify Environment**  
-1. **Check Connectivity**:  
-   - Log in as test users on assigned devices.  
-   - Ensure they can access email, Teams, and other services.  
+#### **Step 2.2: Enable Endpoint Detection and Response (EDR)**
 
-2. **Test Tenant Functionality**:  
-   - Send test emails between users to confirm Exchange Online functionality.  
-   - Access SharePoint or OneDrive to validate file-sharing capabilities.  
+1. **Enable EDR Features**:
+   - **Endpoint Detection and Response (EDR)** provides deeper visibility into suspicious activities on endpoints, allowing you to investigate and respond to threats efficiently.
+   - To enable EDR, go to **Microsoft 365 Defender portal** > **Endpoint Security** > **EDR Settings**.
+   - Under the **EDR policy**, set it to **Monitor mode** for detection only, or **Block mode** for both detection and automatic response to threats.
 
----
-### Step-by-Step Guide: **Configure Microsoft 365 Defender**
+2. **Configure EDR for Automatic Investigation and Response**:
+   - EDR can automatically detect unusual activities like process anomalies, file modifications, and suspicious network connections. Configure it to trigger **automatic investigation** whenever such activities are detected.
+   - Enable **automated remediation** so that Microsoft Defender can automatically take action when a threat is detected, such as isolating an infected device or quarantining a file.
 
-After setting up the environment, the next step is to enable and configure key services in **Microsoft 365 Defender**. This involves setting up email protection, endpoint security, and integrating with Azure Active Directory to ensure unified monitoring and access control.  
+   **Example Actions**:
+   - **Isolate the affected device**: When an endpoint is compromised, Defender can isolate it from the network to prevent the threat from spreading.
+   - **Quarantine malicious files**: Suspicious or malicious files can be automatically moved to quarantine, preventing further damage while allowing for analysis.
 
----
+3. **Set Alerts and Notifications**:
+   - Configure alerts for activities detected by EDR, such as malware execution or unusual network behavior. Alerts should be routed to the appropriate response team or security personnel.
+   - In the **Microsoft 365 Defender portal**, configure your notification settings under **Alerts** to ensure timely responses to detected threats.
 
-### **1. Enable and Configure Email Protection (Defender for Office 365)**  
+4. **Enable Threat Hunting**:
+   - For advanced detection, enable **Threat Hunting** within EDR. This feature allows you to proactively search for signs of compromise and investigate suspicious patterns across your network.
+   - You can search for indicators of compromise (IOCs) and track suspicious activity across endpoints in real time.
 
-#### **Step 1.1: Access Microsoft Defender for Office 365**  
-1. Log in to the **Microsoft 365 Security & Compliance Center** ([https://security.microsoft.com](https://security.microsoft.com)).  
-2. In the left-hand menu, navigate to **Policies & Rules > Threat Policies**.  
+By configuring **Antivirus** settings, **Attack Surface Reduction rules**, and enabling **Endpoint Detection and Response (EDR)**, you ensure that your virtual machines are well-protected against both known and unknown threats. Additionally, you enable the system to automatically detect, investigate, and respond to security incidents, minimizing the potential damage of security breaches.
 
-#### **Step 1.2: Configure Anti-Phishing Policies**  
-1. Go to **Anti-Phishing** under Threat Policies.  
-2. Click **+ Create Policy** to define a new policy.  
-   - **Name**: Give the policy a name (e.g., "Anti-Phishing for Organization").  
-   - **Users/Groups**: Select all users or specific groups to apply the policy.  
-   - **Impersonation Protection**: Add executives or critical users to protect against impersonation attacks.  
-3. Enable **Action Settings**:  
-   - Automatically quarantine phishing emails.  
-   - Notify users when an email is quarantined.  
-4. Save and apply the policy.  
-
-#### **Step 1.3: Configure Anti-Malware Policies**  
-1. In the Threat Policies section, go to **Anti-Malware**.  
-2. Edit the default policy or create a new one:  
-   - Enable scanning for all file types and attachments.  
-   - Configure notification settings for admins and end-users.  
-3. Save the policy.  
+### **3. Perform Vulnerability Assessments**
 
 ---
 
-### **2. Configure Endpoint Security (Microsoft Defender for Endpoint)**  
+#### **Step 3.1: Run Vulnerability Scans**
 
-#### **Step 2.1: Access Endpoint Manager**  
-1. Log in to the **Microsoft Endpoint Manager Admin Center** ([https://endpoint.microsoft.com](https://endpoint.microsoft.com)).  
-2. Navigate to **Devices > Configuration Profiles**.  
+1. **Use Microsoft Defender’s Vulnerability Assessment Tools**:
+   - Access the **Threat and Vulnerability Management (TVM)** feature within Microsoft Defender for Endpoint.
+   - Navigate to **Microsoft 365 Defender portal** > **Endpoint Security** > **Threat and Vulnerability Management**.
+   - Launch **vulnerability scans** across your virtual machines (VMs) to identify potential risks like outdated software, unpatched vulnerabilities, or weak configurations.
 
-#### **Step 2.2: Enable Defender for Endpoint**  
-1. Go to **Endpoint Security > Microsoft Defender for Endpoint**.  
-2. Onboard devices:  
-   - Choose the type of devices (e.g., Windows, macOS, Linux) you want to onboard.  
-   - Follow the onboarding instructions to deploy the required Defender configuration on test devices.  
+2. **Perform Regular Scans**:
+   - Schedule and run scans to ensure continuous monitoring of vulnerabilities.
+   - Use built-in PowerShell commands on Windows VMs to manually initiate scans for a specific system.
 
-#### **Step 2.3: Configure Security Policies**  
-1. Create a new **Endpoint Protection Policy**:  
-   - Go to **Endpoint Security > Attack Surface Reduction Rules**.  
-   - Enable key rules:  
-     - Block executable content from email and web downloads.  
-     - Block credential stealing from LSASS.  
-   - Assign the policy to your test user group.  
-2. Enable **Device Compliance Policies**:  
-   - Define rules for device encryption, antivirus status, and firewall protection.  
+   **Example Command** (for Windows VM):
+   ```powershell
+   Start-MpScan -ScanType QuickScan
+   ```
+   - For Linux VMs, ensure they are integrated into the Defender ecosystem, and run equivalent vulnerability assessments using Defender commands or scripts.
 
-#### **Step 2.4: Validate Endpoint Protection**  
-1. Simulate endpoint threats by running test scripts or tools (e.g., EICAR test files).  
-2. Confirm that Defender detects and blocks malicious activity.  
+3. **View Vulnerability Data**:
+   - Use the TVM dashboard to view a comprehensive list of detected vulnerabilities across all endpoints.
+   - Prioritize vulnerabilities based on their severity, exploitability, and risk to critical systems.
 
 ---
 
-### **3. Integrate Microsoft 365 Defender with Azure Active Directory (Azure AD)**  
+#### **Step 3.2: Review Vulnerability Results**
 
-#### **Step 3.1: Enable Unified Monitoring**  
-1. In the **Microsoft 365 Security Portal**, go to **Settings > Identities**.  
-2. Enable integration with **Azure Active Directory** for identity-based threat monitoring.  
+1. **Analyze Scan Results**:
+   - Go to the **TVM Dashboard** to review:
+     - **Risk levels**: Vulnerabilities are categorized by severity (low, medium, high).
+     - **Affected devices and applications**: Identify which VMs or software are vulnerable.
+     - **Suggested actions**: Defender recommends steps to mitigate risks, such as installing updates or reconfiguring system settings.
 
-#### **Step 3.2: Configure Conditional Access Policies**  
-1. Log in to **Azure Active Directory Admin Center** ([https://aad.portal.azure.com](https://aad.portal.azure.com)).  
-2. Navigate to **Security > Conditional Access**.  
-3. Create a new policy:  
-   - **Assignments**: Apply to all users or specific roles/groups.  
-   - **Conditions**: Enable conditions for risky sign-ins or untrusted devices.  
-   - **Controls**: Require MFA for high-risk logins or block access altogether.  
+2. **Address High-Severity Vulnerabilities**:
+   - **Apply Patches**: Install updates or patches for high-risk vulnerabilities. This can often be automated through Microsoft Endpoint Manager or other patch management tools.
+   - **Restrict Risky Applications or Files**:
+     - Disable or remove outdated or vulnerable software from affected VMs.
+     - Block risky files using Defender’s **File Block** or **Application Control policies**.
 
-#### **Step 3.3: Enable Identity Protection**  
-1. Go to **Azure AD > Security > Identity Protection**.  
-2. Enable user risk and sign-in risk policies:  
-   - Automatically block high-risk sign-ins.  
-   - Notify administrators of risky user behavior.  
+3. **Document Findings and Actions**:
+   - Maintain a log of vulnerabilities identified, their severity, and the mitigation steps taken.
+   - Update your **vulnerability assessment report** to reflect the current status and resolved issues.
 
----
+### **Step 4: Simulate and Detect Threats**
 
-### **4. Verify Configuration**  
-1. Test email protection by sending simulated phishing or malware-laden emails to test accounts.  
-2. Validate endpoint security by executing harmless test scripts (e.g., EICAR files).  
-3. Simulate risky sign-ins (e.g., logging in from an unfamiliar location) to ensure Azure AD policies trigger alerts.  
+#### **Step 4.1: Simulate Threats (Optional)**
 
----
+1. **Create a Test Threat**:
+   - Use a safe malware testing tool like the **EICAR test file** to simulate malware.  
+   - Run the following command on a test endpoint to create a harmless test file:
+     ```bash
+     echo "X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*" > C:\Test\eicar.com
+     ```
 
-### Step-by-Step Guide: **Simulate Attacks in Microsoft 365 Defender**
+2. **Simulate Phishing Attacks**:
+   - Send a controlled phishing email to a test mailbox in your environment.
 
-Simulating attacks is a crucial step to evaluate the effectiveness of your security configurations. This section outlines how to simulate phishing attacks and ransomware behavior safely in a controlled environment.
-
----
-
-### **1. Simulate Phishing Attacks**  
-
-#### **Step 1.1: Set Up a Phishing Campaign**  
-1. **Access Microsoft Defender Attack Simulation**:  
-   - Navigate to the [Microsoft 365 Security & Compliance Center](https://security.microsoft.com).  
-   - Go to **Email & Collaboration > Attack Simulation Training**.  
-
-2. **Create a New Simulation**:  
-   - Click **Launch Simulation** and choose **Phishing Campaign**.  
-   - Select a predefined phishing payload or create a custom one.  
-     - Example: A fake email from IT support requesting password changes.  
-
-3. **Target Users**:  
-   - Add test users or groups (e.g., Finance Team or HR Team).  
-
-4. **Configure Campaign Settings**:  
-   - Set a start and end date for the campaign.  
-   - Choose how emails should be delivered (e.g., randomly or all at once).  
-
-5. **Run the Campaign**:  
-   - Launch the simulation and monitor user behavior.  
-   - Track metrics like who clicked the link, submitted credentials, or ignored the email.  
-
-#### **Step 1.2: Analyze Results**  
-1. View the simulation report in the **Attack Simulation Training** dashboard.  
-   - Metrics include click-through rates, credential submission rates, and non-responses.  
-
-2. Identify Users at Risk:  
-   - Highlight users who interacted with the phishing email for further training.  
+3. **Simulate Suspicious Processes**:
+   - Use tools like **Sysinternals** to create benign but unusual process behavior.
 
 ---
 
-### **2. Simulate Ransomware Behavior**  
+#### **Step 4.2: Detect Threats in Defender for Endpoint**
 
-#### **Step 2.1: Prepare the Test Endpoint**  
-1. **Use a Dedicated Test Environment**:  
-   - Set up a virtual machine (VM) or physical test device enrolled in **Microsoft Defender for Endpoint**.  
-   - Ensure the test endpoint is isolated from production systems.  
+1. **Monitor Alerts**:
+   - Log in to the **Microsoft 365 Defender portal**.
+   - Navigate to **Incidents & Alerts** > **Alerts**.
+   - Look for any alerts triggered by your test activity, such as the detection of the EICAR file.
 
-2. **Install the Microsoft Defender Test Tool**:  
-   - Download the **Microsoft Defender Evaluation Tool** ([official documentation here](https://docs.microsoft.com/en-us/microsoft-365/security/)).  
-   - Deploy the tool on the test endpoint to simulate safe attacks.  
-
-#### **Step 2.2: Simulate Ransomware Activity**  
-1. **Run a Safe Malware Test**:  
-   - Use the EICAR test file to simulate malicious file behavior:  
-     - Create a text file with the following content:  
-       ```
-       X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*
-       ```
-     - Save it as `eicar.com`.  
-   - Upload the file to the test endpoint and monitor Defender’s response.  
-
-2. **Simulate File Encryption**:  
-   - Use a harmless encryption script to mimic ransomware activity:  
-     - Encrypt files in a specific folder using PowerShell or a tool like **SafeCrypto**.  
-   - Verify that Defender detects and flags the activity.  
-
-#### **Step 2.3: Analyze Detection and Response**  
-1. Review alerts in the **Microsoft Defender Security Center**:  
-   - Go to **Incidents & Alerts** and locate alerts related to the simulated ransomware.  
-2. Verify Automated Response:  
-   - Confirm that Defender isolated the affected device or blocked further encryption attempts.  
+2. **Review Threat Details**:
+   - Click on an alert to view detailed information, including:
+     - Threat name.
+     - Affected files and devices.
+     - Alert severity and recommendations.
 
 ---
 
-### **3. Report and Validate Results**  
+### **Step 5: Investigate and Respond to Threats**
 
-#### **Step 3.1: Document Findings**  
-1. **For Phishing Simulation**:  
-   - Include metrics like:  
-     - Number of emails delivered, opened, clicked, and reported.  
-   - Provide recommendations for users who interacted with phishing emails.  
+#### **Step 5.1: Analyze Detected Threats**
 
-2. **For Ransomware Simulation**:  
-   - Document Defender’s detection and response actions:  
-     - Files scanned and quarantined.  
-     - Endpoint isolation or mitigation steps taken.  
+1. **Open the Alert Timeline**:
+   - In the **Microsoft 365 Defender portal**, go to **Incidents & Alerts** > **Incidents**.
+   - Select a specific incident to view its **timeline** and **action history**.
 
-#### **Step 3.2: Test Remediation Capabilities**  
-- Use Defender playbooks to remediate the test incidents.  
-- Ensure that logs capture all activities for auditing purposes.  
+2. **Investigate the Threat**:
+   - Identify the following details:
+     - **Threat Source**: Origin of the threat (e.g., email, download).
+     - **Affected Endpoints**: Devices impacted by the threat.
+     - **Affected Files**: Files flagged as malicious.
 
----
+#### **Step 5.2: Mitigate Threats**
 
-### Step-by-Step Guide: **Detect and Investigate Threats in Microsoft 365 Defender**
+1. **Isolate the Endpoint**:
+   - Use Defender's automated response feature to isolate a compromised endpoint:
+     ```bash
+     Invoke-EndpointIsolation -EndpointName "VM-Test-1"
+     ```
+   - This will restrict the endpoint’s communication with the network.
 
-This step focuses on reviewing alerts, investigating threats, and understanding incident logs in the **Microsoft 365 Defender Security Portal** to assess how well your simulated attacks were detected and managed.
+2. **Remove Malicious Files**:
+   - Delete the malicious test file using a command:
+     ```bash
+     Remove-Item -Path "C:\Test\eicar.com"
+     ```
 
----
+3. **Block Threats and Network Connections**:
+   - Add a block rule for suspicious IPs or URLs in **Microsoft Defender Firewall**.
 
-### **1. Detect Alerts for Simulated Attacks**  
+4. **Manual Remediation**:
+   - Terminate malicious processes using **Task Manager** or PowerShell:
+     ```bash
+     Stop-Process -Name "MaliciousProcessName" -Force
+     ```
+   - Restore affected files from backup if required.
 
-#### **Step 1.1: Access the Microsoft 365 Defender Security Portal**  
-1. Navigate to the [Microsoft 365 Defender Portal](https://security.microsoft.com).  
-2. Log in using your administrator credentials.  
 
-#### **Step 1.2: Review Alerts Dashboard**  
-1. Go to **Incidents & Alerts > Alerts** from the left-hand menu.  
-2. Filter alerts to show recent activity related to your simulations:  
-   - Use filters like **Severity**, **Category**, or **Source** (e.g., email, endpoint).  
-3. Look for alerts related to:  
-   - **Phishing Simulation**: Emails flagged as phishing attempts.  
-   - **Ransomware Simulation**: Malicious file activity or encryption detected on endpoints.  
 
-#### **Step 1.3: Analyze Alert Details**  
-1. Click on an individual alert to view its details:  
-   - **Alert Summary**: Provides a high-level description of the threat.  
-   - **Mitigation Actions**: Lists automated or recommended actions taken by Microsoft Defender.  
-   - **Alert Timeline**: Tracks the sequence of events, such as when the threat was detected and remediated.  
-
----
-
-### **2. Investigate Phishing Attempts**  
-
-#### **Step 2.1: Review Phishing Incident Logs**  
-1. Go to **Incidents & Alerts > Incidents** to view grouped alerts for the phishing simulation.  
-2. Click on the phishing incident to open the detailed investigation page.  
-
-#### **Step 2.2: Investigate the Phishing Campaign**  
-1. **Message Trace**:  
-   - Track the journey of the simulated phishing email:  
-     - Whether it was delivered, flagged, quarantined, or reported by users.  
-2. **Affected Users**:  
-   - Identify users who interacted with the email (clicked links, submitted credentials).  
-3. **Email Content Analysis**:  
-   - Check the headers, subject, and links in the simulated phishing email.  
-
-#### **Step 2.3: Validate Automated Responses**  
-1. Confirm that the email was quarantined or flagged as malicious.  
-2. Check if users received notification of the phishing attempt.  
-
----
-
-### **3. Investigate Ransomware Activities**  
-
-#### **Step 3.1: Review Endpoint Alerts**  
-1. In the **Incidents & Alerts > Alerts** section, filter alerts by **Source > Microsoft Defender for Endpoint**.  
-2. Locate alerts related to the ransomware simulation:  
-   - File encryption activity.  
-   - Malicious file (e.g., EICAR test file) detected.  
-
-#### **Step 3.2: Analyze Endpoint Logs**  
-1. Click on the alert to access the **Alert Investigation Page**:  
-   - **Threat Description**: Learn about the specific ransomware behavior flagged.  
-   - **Affected Files**: Identify files that were encrypted or flagged as malicious.  
-   - **Device Timeline**: Review the sequence of activities on the affected endpoint (e.g., file creation, encryption, quarantine).  
-
-#### **Step 3.3: Verify Remediation Steps**  
-1. Check if the affected endpoint was automatically isolated from the network.  
-2. Review actions taken to block further activity, such as deleting malicious files or stopping processes.  
-
----
-
-### **4. Generate Reports and Insights**  
-
-#### **Step 4.1: Create Incident Reports**  
-1. Go to **Reports > Threat Protection Status** to download detailed logs for simulated attacks.  
-2. Include the following in your report:  
-   - **Phishing Attempts**: Number of emails flagged, delivered, clicked, or reported.  
-   - **Ransomware Activities**: Devices affected, files encrypted, and remediation actions taken.  
-
-#### **Step 4.2: Provide Recommendations**  
-1. Based on investigation findings, recommend:  
-   - Security awareness training for users who interacted with phishing emails.  
-   - Enhanced endpoint policies to prevent ransomware activities.  
-
----
-
-### Step-by-Step Guide: **Automate Incident Response and Build a Monitoring Dashboard in Microsoft 365 Defender**
-
----
-
-### **5. Automate Incident Response**  
-Automating incident response minimizes the time to mitigate threats and ensures consistent handling of security incidents. Below are the steps to create automated playbooks for phishing email quarantine and endpoint isolation.  
-
----
-
-#### **Step 5.1: Create an Automated Playbook for Phishing Emails**  
-
-##### **Step 5.1.1: Access the Automation Section**  
-1. Log in to the [Microsoft 365 Defender Portal](https://security.microsoft.com).  
-2. Navigate to **Settings > Rules > Automation**.  
-3. Click **+ Create Automation Rule**.  
-
-##### **Step 5.1.2: Define the Automation Rule**  
-1. **Name and Scope**:  
-   - **Name**: "Quarantine Phishing Emails Automatically".  
-   - **Scope**: Select **Email & Collaboration**.  
-2. **Conditions**:  
-   - Set a condition for email alerts classified as phishing or malware.  
-     - Example: **Alert Title Contains** "Phishing attempt".  
-3. **Actions**:  
-   - Select **Quarantine email** as the response action.  
-
-##### **Step 5.1.3: Apply and Save**  
-1. Assign the rule to apply to all users or specific groups.  
-2. Save and activate the automation rule.  
-
----
-
-#### **Step 5.2: Create an Automated Playbook for Endpoint Isolation**  
-
-##### **Step 5.2.1: Configure Endpoint Isolation**  
-1. Go to the **Microsoft Endpoint Manager Admin Center** ([https://endpoint.microsoft.com](https://endpoint.microsoft.com)).  
-2. Navigate to **Endpoint Security > Automation Rules**.  
-3. Create a new automation rule for isolating endpoints.  
-
-##### **Step 5.2.2: Define the Playbook**  
-1. **Name**: "Isolate Infected Endpoints Automatically".  
-2. **Trigger**:  
-   - Set the condition to trigger on high-severity alerts from Defender for Endpoint.  
-     - Example: Alerts detecting malware or unauthorized file encryption.  
-3. **Response Action**:  
-   - Select **Isolate Device** to disconnect it from the network while maintaining Defender's connection.  
-
-##### **Step 5.2.3: Apply and Test**  
-1. Assign the rule to your test devices or groups.  
-2. Save and test by simulating a ransomware or malware attack.  
-
----
-
-### **6. Build a Monitoring Dashboard**  
-Creating a dashboard provides a centralized view of detection metrics, incident timelines, and response actions for enhanced monitoring.  
-
----
-
-#### **Step 6.1: Access Microsoft Defender Reports**  
-1. Log in to the [Microsoft 365 Defender Portal](https://security.microsoft.com).  
-2. Navigate to **Reports > Threat Protection Status**.  
-
----
-
-#### **Step 6.2: Create a Custom Dashboard**  
-
-##### **Step 6.2.1: Define Dashboard Goals**  
-1. Metrics to Display:  
-   - Number of phishing emails detected and quarantined.  
-   - Number of endpoints isolated due to malicious activity.  
-2. Incident Timelines:  
-   - Show when threats were detected, escalated, and resolved.  
-
-##### **Step 6.2.2: Use the Dashboard Feature**  
-1. In the **Reports** section, click **+ Add New Widget** to customize your dashboard.  
-2. Select widgets for:  
-   - **Email Threats**: Display phishing and malware email counts.  
-   - **Endpoint Threats**: Show metrics for endpoint detections and isolations.  
-   - **Incident Timelines**: Track the lifecycle of major incidents.  
-3. Arrange widgets for clarity and usability.  
-
----
-
-#### **Step 6.3: Integrate with Power BI (Optional)**  
-1. Export data from Defender to **Power BI** for advanced visualization:  
-   - Go to **Reports > Export Logs**.  
-   - Import the data into Power BI and create custom visualizations.  
-2. Use Power BI to create charts for detection trends, response efficiency, and incident categories.  
-
----
-
-### **Key Outputs**  
-
-#### **Automated Incident Response**:  
-- Phishing emails are quarantined without manual intervention.  
-- Infected endpoints are isolated automatically to prevent lateral movement.  
-
-#### **Monitoring Dashboard**:  
-- A visual dashboard in Microsoft 365 Defender displaying:  
-  - Threat detection and response metrics.  
-  - Real-time incident timelines and automated response actions.  
-
-These configurations enhance operational efficiency, providing a streamlined view of your security posture and quick responses to active threats.
